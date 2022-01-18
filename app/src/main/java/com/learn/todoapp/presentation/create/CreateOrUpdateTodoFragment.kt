@@ -5,27 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.learn.todoapp.R
+import androidx.fragment.app.viewModels
+import com.learn.todoapp.databinding.CreateOrUpdateTodoFragmentBinding
 
 class CreateOrUpdateTodoFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CreateOrUpdateTodoFragment()
-    }
-
-    private lateinit var viewModel: CreateOrUpdateTodoViewModel
+    private val viewModel: CreateOrUpdateTodoViewModel by viewModels()
+    private lateinit var binding: CreateOrUpdateTodoFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.create_or_update_todo_fragment, container, false)
+    ): View {
+        binding = CreateOrUpdateTodoFragmentBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[CreateOrUpdateTodoViewModel::class.java]
     }
 
 }

@@ -3,4 +3,11 @@
     <string name="submit">Submit</string>
     <string name="email_address">Enter Email Address</string>
     <string name="enter_password">Enter Password</string>
+
+    <string name="create_todo">Create Todo</string>
+    <string name="title">Title</string>
+    <string name="hh_mm">HH:mm</string>
+    <string name="dd_mm_yyyy">dd/MM/yyyy</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
 </resources>
