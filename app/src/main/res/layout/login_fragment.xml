@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.login.LoginFragment">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_email_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_address"
+        android:inputType="textEmailAddress"
+
+        app:layout_constraintBottom_toTopOf="@id/et_password_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_password_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_password"
+        android:inputType="textPassword"
+
+        app:layout_constraintBottom_toTopOf="@id/bt_submit"
+        app:layout_constraintEnd_toEndOf="@id/et_email_id"
+        app:layout_constraintStart_toStartOf="@id/et_email_id"
+        app:layout_constraintTop_toBottomOf="@id/et_email_id" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+
+        app:layout_constraintBottom_toBottomOf="@id/horizontal_guide"
+        app:layout_constraintEnd_toEndOf="@id/et_email_id"
+        app:layout_constraintStart_toStartOf="@id/et_email_id"
+        app:layout_constraintTop_toBottomOf="@id/et_password_id" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
