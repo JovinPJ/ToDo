@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import com.learn.todoapp.databinding.LoginFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModel()
     private lateinit var binding: LoginFragmentBinding
 
     override fun onCreateView(
@@ -25,8 +24,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btSubmit.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-            it.findNavController().navigate(action)
+            //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            //it.findNavController().navigate(action)
+
+            viewModel.login("eve.holt@reqres.in", "cityslicka")
+
         }
     }
 
