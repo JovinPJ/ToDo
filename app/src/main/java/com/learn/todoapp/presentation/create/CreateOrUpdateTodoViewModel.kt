@@ -1,7 +1,7 @@
 package com.learn.todoapp.presentation.create
 
-import androidx.lifecycle.ViewModel
+import com.learn.todoapp.presentation.base.BaseViewModel
 
-class CreateOrUpdateTodoViewModel : ViewModel() {
+class CreateOrUpdateTodoViewModel : BaseViewModel() {
     // TODO: Implement the ViewModel
 }

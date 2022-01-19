@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.learn.todoapp.databinding.CreateOrUpdateTodoFragmentBinding
+import com.learn.todoapp.presentation.base.BaseFragment
 
-class CreateOrUpdateTodoFragment : Fragment() {
+class CreateOrUpdateTodoFragment : BaseFragment() {
 
     private val viewModel: CreateOrUpdateTodoViewModel by viewModels()
     private lateinit var binding: CreateOrUpdateTodoFragmentBinding

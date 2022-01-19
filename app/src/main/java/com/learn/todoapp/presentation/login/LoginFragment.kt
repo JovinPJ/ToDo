@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.learn.todoapp.databinding.LoginFragmentBinding
+import com.learn.todoapp.presentation.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
     private val viewModel: LoginViewModel by viewModel()
     private lateinit var binding: LoginFragmentBinding
@@ -23,12 +24,26 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         binding.btSubmit.setOnClickListener {
-            //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-            //it.findNavController().navigate(action)
+            viewModel.login(
+                binding.etEmailId.text.toString(),
+                binding.etPasswordId.text.toString()
+            )
+        }
+    }
 
-            viewModel.login("eve.holt@reqres.in", "cityslicka")
+    private fun setObservers() {
+        setBaseObserver(viewModel)
+        viewModel.getLoggedInLiveData().observe(viewLifecycleOwner) { isLoggedIn ->
+            navigateToHome(isLoggedIn)
+        }
+    }
 
+    private fun navigateToHome(loggedIn: Boolean?) {
+        if (loggedIn == true) {
+            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            findNavController().navigate(action)
         }
     }
 

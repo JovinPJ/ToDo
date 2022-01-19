@@ -1,7 +1,9 @@
 package com.learn.todoapp.presentation.home
 
-import androidx.lifecycle.ViewModel
+import com.learn.todoapp.presentation.base.BaseViewModel
 
-class HomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HomeViewModel : BaseViewModel() {
+    fun logOut() { // remove user Token
+
+    }
 }

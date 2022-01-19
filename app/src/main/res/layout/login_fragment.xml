@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
+        android:text="eve.holt@reqres.in"
         android:inputType="textEmailAddress"
 
         app:layout_constraintBottom_toTopOf="@id/et_password_id"
@@ -31,6 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/enter_password"
+        android:text="cityslicka"
         android:inputType="textPassword"
 
         app:layout_constraintBottom_toTopOf="@id/bt_submit"
