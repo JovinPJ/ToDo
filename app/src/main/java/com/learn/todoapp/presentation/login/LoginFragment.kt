@@ -20,6 +20,8 @@ class LoginFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         return binding.root
     }
 

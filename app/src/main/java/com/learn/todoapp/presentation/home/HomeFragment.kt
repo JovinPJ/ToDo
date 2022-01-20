@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.presentation.base.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: HomeFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

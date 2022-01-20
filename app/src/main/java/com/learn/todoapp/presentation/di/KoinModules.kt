@@ -2,12 +2,16 @@ package com.learn.todoapp.presentation.di
 
 import com.learn.todoapp.data.api.provideRetrofit
 import com.learn.todoapp.data.api.provideTodoApi
+import com.learn.todoapp.data.db.providePreference
+import com.learn.todoapp.data.db.providePreferenceRepository
 import com.learn.todoapp.data.repositoryImpl.provideLoginRepository
 import com.learn.todoapp.domain.provideFetchAllTodosUseCase
 import com.learn.todoapp.domain.provideLoginUseCase
+import com.learn.todoapp.domain.provideUserTokenUseCase
 import com.learn.todoapp.presentation.create.CreateOrUpdateTodoViewModel
 import com.learn.todoapp.presentation.home.HomeViewModel
 import com.learn.todoapp.presentation.login.LoginViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,19 +26,24 @@ fun getDataModules() = module {
     //single { provideRoomDatabase(androidContext()) }
     //single { provideTodoDao(get()) }
 
+    //Preference
+    single { providePreference(androidContext()) }
+
     //Repos
     factory { provideLoginRepository(get()) }
+    factory { providePreferenceRepository(get()) }
 
 }
 
 fun getDomainModules() = module {
-    factory { provideLoginUseCase(get()) }
+    factory { provideLoginUseCase(get(), get()) }
     factory { provideFetchAllTodosUseCase() }
+    factory { provideUserTokenUseCase(get()) }
 }
 
 fun getViewModules() = module {
     viewModel { LoginViewModel(get()) }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get(), get()) }
     viewModel { CreateOrUpdateTodoViewModel() }
 
 }
