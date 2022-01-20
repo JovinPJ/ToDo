@@ -2,10 +2,10 @@ package com.learn.todoapp.presentation.di
 
 import com.learn.todoapp.data.api.provideRetrofit
 import com.learn.todoapp.data.api.provideTodoApi
-import com.learn.todoapp.data.db.providePreference
-import com.learn.todoapp.data.db.providePreferenceRepository
+import com.learn.todoapp.data.db.*
 import com.learn.todoapp.data.repositoryImpl.provideLoginRepository
 import com.learn.todoapp.domain.provideFetchAllTodosUseCase
+import com.learn.todoapp.domain.provideInsertTodoUseCase
 import com.learn.todoapp.domain.provideLoginUseCase
 import com.learn.todoapp.domain.provideUserTokenUseCase
 import com.learn.todoapp.presentation.create.CreateOrUpdateTodoViewModel
@@ -23,8 +23,8 @@ fun getDataModules() = module {
     factory { provideTodoApi(get()) }
 
     //DB
-    //single { provideRoomDatabase(androidContext()) }
-    //single { provideTodoDao(get()) }
+    single { provideTodoRoomDatabase(androidContext()) }
+    single { provideTodoDao(get()) }
 
     //Preference
     single { providePreference(androidContext()) }
@@ -32,6 +32,7 @@ fun getDataModules() = module {
     //Repos
     factory { provideLoginRepository(get()) }
     factory { providePreferenceRepository(get()) }
+    factory { provideTodoDBOperationRepository(get()) }
 
 }
 
@@ -39,11 +40,11 @@ fun getDomainModules() = module {
     factory { provideLoginUseCase(get(), get()) }
     factory { provideFetchAllTodosUseCase() }
     factory { provideUserTokenUseCase(get()) }
+    factory { provideInsertTodoUseCase(get(), get()) }
 }
 
 fun getViewModules() = module {
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get(), get()) }
-    viewModel { CreateOrUpdateTodoViewModel() }
-
+    viewModel { CreateOrUpdateTodoViewModel(get()) }
 }

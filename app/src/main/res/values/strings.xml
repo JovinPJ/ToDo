@@ -14,4 +14,5 @@
     <string name="check_internet">please check your internet connectivity</string>
     <string name="login_failed">Failed to Login</string>
     <string name="unknown_error">Something went wrong</string>
+    <string name="description">Description</string>
 </resources>
