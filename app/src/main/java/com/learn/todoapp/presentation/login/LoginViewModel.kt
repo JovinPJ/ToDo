@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.learn.todoapp.R
 import com.learn.todoapp.domain.usecases.LoginUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,14 +27,17 @@ class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
                 if (!loginResponse.isSuccess) {
                     loginResponse.errorMsg?.let {
                         showToast(it)
-                    } ?: showToast("Failed to Login")
+                    } ?: showToast(toastRes = R.string.login_failed)
 
                 }
             }
         } catch (e: Exception) {
             Log.e("LoginViewModel", "login api Caught $e")
             hideProgress()
-            showToast(e.message ?: "Something went wrong")
+            e.message?.let {
+                showToast(e.message)
+            } ?: showToast(toastRes = R.string.unknown_error)
+
         }
     }
 

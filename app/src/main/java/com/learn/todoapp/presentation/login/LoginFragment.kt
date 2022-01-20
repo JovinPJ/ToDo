@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.learn.todoapp.databinding.LoginFragmentBinding
 import com.learn.todoapp.presentation.base.BaseFragment
+import com.learn.todoapp.presentation.utils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment() {
@@ -26,6 +27,7 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         binding.btSubmit.setOnClickListener {
+            activity?.hideKeyboard()
             viewModel.login(
                 binding.etEmailId.text.toString(),
                 binding.etPasswordId.text.toString()

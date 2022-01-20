@@ -4,19 +4,24 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.learn.todoapp.R
+import com.learn.todoapp.presentation.utils.models.ToastMessage
 import kotlinx.coroutines.CoroutineExceptionHandler
+import java.net.UnknownHostException
 
 abstract class BaseViewModel : ViewModel() {
     protected val handler = CoroutineExceptionHandler { _, exception ->
         val msg = "Caught $exception"
         Log.e("ExceptionHandler", msg)
-        showToast(msg)
+        if (exception is UnknownHostException)
+            showToast(toastRes = R.string.check_internet)
+        else showToast(toastMsg = msg)
     }
 
-    private val toastMessageLiveData = MutableLiveData<String>()
+    private val toastMessageLiveData = MutableLiveData<ToastMessage>()
     private val progressBarLiveData = MutableLiveData<Boolean>()
 
-    fun getToastLiveData(): LiveData<String> {
+    fun getToastLiveData(): LiveData<ToastMessage> {
         return toastMessageLiveData
     }
 
@@ -24,8 +29,13 @@ abstract class BaseViewModel : ViewModel() {
         return progressBarLiveData
     }
 
-    protected fun showToast(toastMsg: String) {
-        toastMessageLiveData.postValue(toastMsg)
+    protected fun showToast(toastMsg: String? = null, toastRes: Int? = null) {
+        toastMessageLiveData.postValue(
+            ToastMessage(
+                message = toastMsg,
+                messageRes = toastRes
+            )
+        )
     }
 
     protected fun showProgress() {

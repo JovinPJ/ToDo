@@ -7,7 +7,10 @@ abstract class BaseFragment : Fragment() {
 
     protected fun setBaseObserver(viewModel: BaseViewModel) {
         viewModel.getToastLiveData().observe(viewLifecycleOwner) { toastMsg ->
-            showToast(toastMsg)
+            showToast(
+                message = toastMsg.message,
+                messageRes = toastMsg.messageRes
+            )
         }
     }
 }
