@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.learn.todoapp.databinding.CreateOrUpdateTodoFragmentBinding
 import com.learn.todoapp.domain.models.ToDoType
 import com.learn.todoapp.presentation.base.BaseFragment
@@ -26,6 +27,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         binding.fabCreateTodo.setOnClickListener {
             viewModel.insertTodo(
                 binding.etTitle.text.toString(),
@@ -35,6 +37,13 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
                 if (binding.rgTodoType.checkedRadioButtonId == binding.radioDaily.id)
                     ToDoType.DAILY else ToDoType.MONTHLY
             )
+        }
+    }
+
+    private fun setObservers() {
+        setBaseObserver(viewModel)
+        viewModel.getTodoInsertedLiveData().observe(viewLifecycleOwner) { isInserted ->
+            if (isInserted) findNavController().popBackStack()
         }
     }
 

@@ -1,6 +1,8 @@
 package com.learn.todoapp.presentation.create
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.learn.todoapp.R
 import com.learn.todoapp.domain.models.ToDo
@@ -14,6 +16,9 @@ class CreateOrUpdateTodoViewModel(
     private val insertTodoUsecase: InsertTodoUsecase
 ) : BaseViewModel() {
 
+    private val todoInsertedLiveData = MutableLiveData<Boolean>()
+    fun getTodoInsertedLiveData(): LiveData<Boolean> = todoInsertedLiveData
+
     fun insertTodo(
         title: String, desc: String, time: String, date: String, toDoType: ToDoType
     ) {
@@ -23,6 +28,8 @@ class CreateOrUpdateTodoViewModel(
                 insertTodoUsecase.insertTodo(
                     ToDo(title, desc, time, date, toDoType)
                 )
+                todoInsertedLiveData.postValue(true)
+                hideProgress()
             }
         } catch (e: Exception) {
             Log.e("CreateTodoViewModel", "insert Todo Caught $e")

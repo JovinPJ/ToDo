@@ -14,7 +14,10 @@ fun provideLoginUseCase(
     preferenceRepository: PreferenceRepository
 ): LoginUsecase = LoginUsecase(loginRepository, preferenceRepository)
 
-fun provideFetchAllTodosUseCase(): FetchAllTodosUsecase = FetchAllTodosUsecase()
+fun provideFetchAllTodosUseCase(
+    todoDbOperationsRepository: TodoDbOperationsRepository,
+    preferenceRepository: PreferenceRepository
+): FetchAllTodosUsecase = FetchAllTodosUsecase(todoDbOperationsRepository, preferenceRepository)
 
 fun provideUserTokenUseCase(
     preferenceRepository: PreferenceRepository

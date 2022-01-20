@@ -38,7 +38,7 @@ fun getDataModules() = module {
 
 fun getDomainModules() = module {
     factory { provideLoginUseCase(get(), get()) }
-    factory { provideFetchAllTodosUseCase() }
+    factory { provideFetchAllTodosUseCase(get(), get()) }
     factory { provideUserTokenUseCase(get()) }
     factory { provideInsertTodoUseCase(get(), get()) }
 }

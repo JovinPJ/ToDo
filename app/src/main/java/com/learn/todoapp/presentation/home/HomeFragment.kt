@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.presentation.base.BaseFragment
+import com.learn.todoapp.presentation.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
@@ -30,9 +31,18 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
+        viewModel.fetchAllTodos()
         binding.fabCreateTodo.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToCreateOrUpdateTodoFragment()
             it.findNavController().navigate(action)
+        }
+    }
+
+    private fun setObservers() {
+        setBaseObserver(viewModel)
+        viewModel.getTodosListLiveData().observe(viewLifecycleOwner) { todoList ->
+            showToast("List ${todoList.size}")
         }
     }
 

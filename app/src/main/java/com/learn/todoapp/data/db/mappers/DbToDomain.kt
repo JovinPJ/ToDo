@@ -3,13 +3,12 @@ package com.learn.todoapp.data.db.mappers
 import com.learn.todoapp.data.db.tables.TodoTables
 import com.learn.todoapp.domain.models.ToDo
 
-fun ToDo.toDB(userToken: String): TodoTables {
-    return TodoTables(
+fun TodoTables.toDomain(): ToDo {
+    return ToDo(
         title = title,
-        userToken = userToken,
         description = description,
         time = time,
         date = date,
-        type = toDoType
+        toDoType = type
     )
 }
