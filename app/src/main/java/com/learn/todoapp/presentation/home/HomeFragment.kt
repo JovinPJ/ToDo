@@ -26,6 +26,9 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.adapter = TodoAdapter()
         return binding.root
     }
 
@@ -42,7 +45,7 @@ class HomeFragment : BaseFragment() {
     private fun setObservers() {
         setBaseObserver(viewModel)
         viewModel.getTodosListLiveData().observe(viewLifecycleOwner) { todoList ->
-            showToast("List ${todoList.size}")
+            (binding.rvTodoList.adapter as TodoAdapter).submitList(todoList)
         }
     }
 

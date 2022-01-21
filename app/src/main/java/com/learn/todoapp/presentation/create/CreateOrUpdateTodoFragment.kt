@@ -35,7 +35,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
                 binding.tvTime.text.toString(),
                 binding.tvDate.text.toString(),
                 if (binding.rgTodoType.checkedRadioButtonId == binding.radioDaily.id)
-                    ToDoType.DAILY else ToDoType.MONTHLY
+                    ToDoType.DAILY else ToDoType.WEEKLY
             )
         }
     }
