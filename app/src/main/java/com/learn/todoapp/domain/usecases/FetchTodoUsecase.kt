@@ -14,9 +14,9 @@ class FetchTodoUsecase(
         } ?: listOf()
     }
 
-    suspend fun fetch(title: String): ToDo? {
+    suspend fun fetch(id: Int): ToDo? {
         return preferenceRepository.getUserToken()?.let {
-            todoDbOperationsRepository.fetchTodo(it, title)
+            todoDbOperationsRepository.fetchTodo(it, id)
         }
     }
 }

@@ -28,14 +28,6 @@ fun provideInsertTodoUseCase(
     preferenceRepository
 )
 
-fun provideUpdateTodoUseCase(
-    todoDbOperationsRepository: TodoDbOperationsRepository,
-    preferenceRepository: PreferenceRepository
-): UpdateTodoUsecase = UpdateTodoUsecase(
-    todoDbOperationsRepository,
-    preferenceRepository
-)
-
 fun provideDeleteTodoUseCase(
     todoDbOperationsRepository: TodoDbOperationsRepository,
     preferenceRepository: PreferenceRepository

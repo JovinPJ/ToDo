@@ -9,14 +9,12 @@ import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.domain.models.ToDoType
 import com.learn.todoapp.domain.usecases.FetchTodoUsecase
 import com.learn.todoapp.domain.usecases.InsertTodoUsecase
-import com.learn.todoapp.domain.usecases.UpdateTodoUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateOrUpdateTodoViewModel(
     private val insertTodoUsecase: InsertTodoUsecase,
-    private val updateTodoUsecase: UpdateTodoUsecase,
     private val fetchTodoUsecase: FetchTodoUsecase
 ) : BaseViewModel() {
 
@@ -25,14 +23,16 @@ class CreateOrUpdateTodoViewModel(
     fun getTodoInsertedLiveData(): LiveData<Boolean> = todoInsertedLiveData
     fun getTodoLiveData(): LiveData<ToDo> = todoLiveData
 
-    fun insertTodo(
+    private var todoId: Int = 0  // Id will be updated on UpdateMode
+
+    fun insertOrUpdateTodo(
         title: String, desc: String?, hour: Int, minute: Int, date: Long?, toDoType: ToDoType
     ) {
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
-                insertTodoUsecase.insertTodo(
-                    ToDo(title, desc, hour, minute, date, toDoType)
+                insertTodoUsecase.insertOrUpdateTodo(
+                    ToDo(todoId, title, desc, hour, minute, date, toDoType)
                 )
                 todoInsertedLiveData.postValue(true)
                 hideProgress()
@@ -48,12 +48,13 @@ class CreateOrUpdateTodoViewModel(
 
     }
 
-    fun fetchTodo(title: String) {
+    fun fetchTodo(id: Int) {
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
-                fetchTodoUsecase.fetch(title)?.let {
+                fetchTodoUsecase.fetch(id)?.let {
                     todoLiveData.postValue(it)
+                    todoId = it.id
                     hideProgress()
                 }
             }

@@ -12,7 +12,7 @@ import com.learn.todoapp.R
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.presentation.base.BaseFragment
-import com.learn.todoapp.presentation.create.CreateOrUpdateTodoFragment.Companion.ARG_TITLE
+import com.learn.todoapp.presentation.create.CreateOrUpdateTodoFragment.Companion.ARG_ID
 import com.learn.todoapp.presentation.utils.showMsgDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment(), TodoItemClickListener {
     override fun onClick(todo: ToDo) {
         findNavController().navigate(
             R.id.action_homeFragment_to_createOrUpdateTodoFragment,
-            bundleOf(ARG_TITLE to todo.title)
+            bundleOf(ARG_ID to todo.id)
         )
     }
 

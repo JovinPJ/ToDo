@@ -38,12 +38,11 @@ fun getDomainModules() = module {
     factory { provideFetchTodosUseCase(get(), get()) }
     factory { provideUserTokenUseCase(get()) }
     factory { provideInsertTodoUseCase(get(), get()) }
-    factory { provideUpdateTodoUseCase(get(), get()) }
     factory { provideDeleteTodoUseCase(get(), get()) }
 }
 
 fun getViewModules() = module {
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { CreateOrUpdateTodoViewModel(get(), get(), get()) }
+    viewModel { CreateOrUpdateTodoViewModel(get(), get()) }
 }

@@ -9,10 +9,10 @@ class InsertTodoUsecase(
     private val preferenceRepository: PreferenceRepository
 ) {
 
-    suspend fun insertTodo(todo: ToDo) {
+    suspend fun insertOrUpdateTodo(todo: ToDo) {
         preferenceRepository.getUserToken()?.let {
-            todoDbOperationsRepository.insertTodo(it, todo)
-        }?: kotlin.run {
+            todoDbOperationsRepository.insertOrUpdateTodo(it, todo)
+        } ?: kotlin.run {
             // is user logged in?
         }
     }

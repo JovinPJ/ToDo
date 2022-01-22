@@ -9,7 +9,8 @@ private const val DATE_DISPLAY_FORMAT = "dd/MM/yyyy"
 fun Long.toFormattedDateText(): String {
     return try {
         val date = Date(this)
-        val simpleDateFormat: DateFormat = SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.getDefault())
+        val simpleDateFormat: DateFormat =
+            SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.getDefault())
         simpleDateFormat.format(date)
     } catch (e: Exception) {
         ""

@@ -31,15 +31,19 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
     private var selectedMinute: Int = rightNow.get(Calendar.MINUTE)
 
     companion object {
-        const val ARG_TITLE = "arg_title"
+        const val ARG_ID = "arg_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.getString(ARG_TITLE)?.let {
-            viewModel.fetchTodo(it)
-            activity?.title = getString(R.string.update_todo)
-        } ?: kotlin.run { activity?.title = getString(R.string.create_todo) }
+
+        val title = arguments?.getInt(ARG_ID)?.let {
+            if (it > 0) { // update mode
+                viewModel.fetchTodo(it)
+                getString(R.string.update_todo)
+            } else getString(R.string.create_todo)
+        } ?: kotlin.run { getString(R.string.create_todo) }
+        activity?.title = title
     }
 
     override fun onCreateView(
@@ -57,7 +61,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
         setObservers()
         initializeViews()
         binding.fabCreateTodo.setOnClickListener {
-            insertTodo()
+            insertOrUpdateTodo()
         }
         binding.tvDate.setOnClickListener {
             showDatePicker()
@@ -78,6 +82,12 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
             if (isInserted) findNavController().popBackStack()
         }
         viewModel.getTodoLiveData().observe(viewLifecycleOwner) { todo ->
+            todo.date?.let {
+                selectedDate = it
+            }
+            selectedHour = todo.hour
+            selectedMinute = todo.minute
+
             val selectedTypeId = when (todo.toDoType) {
                 ToDoType.WEEKLY -> binding.radioWeekly.id
                 ToDoType.DAILY -> binding.radioDaily.id
@@ -86,8 +96,8 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
         }
     }
 
-    private fun insertTodo() {
-        viewModel.insertTodo(
+    private fun insertOrUpdateTodo() {
+        viewModel.insertOrUpdateTodo(
             binding.etTitle.text.toString(),
             binding.etDescription.text.toString(),
             selectedHour,

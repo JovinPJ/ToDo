@@ -12,8 +12,8 @@ import retrofit2.Response
 class LoginRepositoryImpl(private val todoApi: TodoApi) : LoginRepository {
     override suspend fun login(email: String, password: String): LoginResponse {
         val response = todoApi.login(User(email, password))
-        var errorMessage : String? = null
-        if(!response.isSuccessful) {
+        var errorMessage: String? = null
+        if (!response.isSuccessful) {
             errorMessage = getErrorMsg(response) // TODO need to handle in common
         }
         return LoginResponse(response.isSuccessful, response.body()?.token, errorMessage)

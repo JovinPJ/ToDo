@@ -8,20 +8,23 @@ import com.learn.todoapp.domain.repositories.TodoDbOperationsRepository
 
 class ToDoDbOperationsRepositoryImpl(private val todoDao: TodoDao) : TodoDbOperationsRepository {
 
-    override suspend fun insertTodo(userToken: String, todo: ToDo) {
-        todoDao.insertTodo(todo.toDB(userToken))
+    override suspend fun insertOrUpdateTodo(userToken: String, todo: ToDo) {
+        if (todo.id > 0) updateTodo(userToken, todo)
+        else todoDao.insertTodo(todo.toDB(userToken))
     }
 
     override suspend fun updateTodo(userToken: String, todo: ToDo) {
-        todoDao.updateTodo(todo.toDB(userToken))
+        val todoTable = todo.toDB(userToken)
+        todoTable.id = todo.id
+        todoDao.updateTodo(todoTable)
     }
 
     override suspend fun fetchAllTodos(userToken: String): List<ToDo> {
         return todoDao.fetchTodos(userToken).map { it.toDomain() }
     }
 
-    override suspend fun fetchTodo(userToken: String, title: String): ToDo {
-        return todoDao.fetchTodo(userToken, title).toDomain()
+    override suspend fun fetchTodo(userToken: String, id: Int): ToDo {
+        return todoDao.fetchTodo(userToken, id).toDomain()
     }
 
     override suspend fun deleteTodo(userToken: String, todo: ToDo) {

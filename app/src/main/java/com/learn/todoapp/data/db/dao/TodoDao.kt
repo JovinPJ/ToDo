@@ -12,8 +12,8 @@ interface TodoDao {
     @Query("SELECT * FROM Todo WHERE `userToken` = :userToken")
     fun fetchTodos(userToken: String): List<TodoTables>
 
-    @Query("SELECT * FROM Todo WHERE `userToken` = :userToken AND `title` = :title ")
-    fun fetchTodo(userToken: String, title: String): TodoTables
+    @Query("SELECT * FROM Todo WHERE `userToken` = :userToken AND `id` = :id ")
+    fun fetchTodo(userToken: String, id: Int): TodoTables
 
     @Update
     suspend fun updateTodo(todoTables: TodoTables)

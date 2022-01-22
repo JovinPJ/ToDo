@@ -1,6 +1,7 @@
 package com.learn.todoapp.domain.models
 
 data class ToDo(
+    val id: Int = 0,
     val title: String,
     val description: String?,
     val hour: Int,

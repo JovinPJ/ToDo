@@ -12,7 +12,7 @@ class DeleteTodoUsecase(
     suspend fun deleteTodo(todo: ToDo) {
         preferenceRepository.getUserToken()?.let {
             todoDbOperationsRepository.deleteTodo(it, todo)
-        }?: kotlin.run {
+        } ?: kotlin.run {
             // is user logged in?
         }
     }
