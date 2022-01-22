@@ -19,4 +19,9 @@
     <string name="unknown_error">Something went wrong</string>
     <string name="description">Description</string>
     <string name="no_todos">No Todos</string>
+    <string name="ok">OK</string>
+    <string name="confirm">are you sure?</string>
+    <string name="delete">Delete</string>
+    <string name="delete_confirm">are you sure to delete?</string>
+    <string name="cancel">Cancel</string>
 </resources>

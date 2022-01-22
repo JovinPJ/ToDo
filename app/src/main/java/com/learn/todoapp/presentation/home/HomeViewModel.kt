@@ -28,7 +28,7 @@ class HomeViewModel(
         }
     }
 
-    fun fetchAllTodos() { // remove user Token
+    fun fetchAllTodos() {
 
         try {
             showProgress()

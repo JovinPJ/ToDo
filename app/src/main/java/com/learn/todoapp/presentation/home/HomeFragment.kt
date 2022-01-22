@@ -10,6 +10,7 @@ import com.learn.todoapp.R
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.presentation.base.BaseFragment
+import com.learn.todoapp.presentation.utils.showMsgDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment(), TodoItemClickListener {
@@ -66,7 +67,11 @@ class HomeFragment : BaseFragment(), TodoItemClickListener {
     }
 
     override fun onLongClick(todo: ToDo): Boolean {
-        viewModel.deleteTodo(todo)
+        activity?.showMsgDialog(
+            title = getString(R.string.delete),
+            message = getString(R.string.delete_confirm),
+            negativeButtonTxt = getString(R.string.cancel)
+        ) { viewModel.deleteTodo(todo) }
         return true
     }
 
