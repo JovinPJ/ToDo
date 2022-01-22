@@ -9,7 +9,8 @@ import com.learn.todoapp.databinding.TodoItemBinding
 import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.domain.models.ToDoType
 
-class TodoAdapter : ListAdapter<ToDo, TodoAdapter.TodoViewHolder>(Companion) {
+class TodoAdapter(private val todoItemClickListener: TodoItemClickListener) :
+    ListAdapter<ToDo, TodoAdapter.TodoViewHolder>(Companion) {
 
     class TodoViewHolder(val binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -31,6 +32,7 @@ class TodoAdapter : ListAdapter<ToDo, TodoAdapter.TodoViewHolder>(Companion) {
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val currentTodo = getItem(position)
         holder.binding.todo = currentTodo
+        holder.binding.todoItemClick = todoItemClickListener
         val selectedTypeId = when (currentTodo.toDoType) {
             ToDoType.WEEKLY -> holder.binding.radioWeekly.id
             ToDoType.DAILY -> holder.binding.radioDaily.id

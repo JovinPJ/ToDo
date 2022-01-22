@@ -4,10 +4,7 @@ import com.learn.todoapp.data.api.provideRetrofit
 import com.learn.todoapp.data.api.provideTodoApi
 import com.learn.todoapp.data.db.*
 import com.learn.todoapp.data.repositoryImpl.provideLoginRepository
-import com.learn.todoapp.domain.provideFetchAllTodosUseCase
-import com.learn.todoapp.domain.provideInsertTodoUseCase
-import com.learn.todoapp.domain.provideLoginUseCase
-import com.learn.todoapp.domain.provideUserTokenUseCase
+import com.learn.todoapp.domain.*
 import com.learn.todoapp.presentation.create.CreateOrUpdateTodoViewModel
 import com.learn.todoapp.presentation.home.HomeViewModel
 import com.learn.todoapp.presentation.login.LoginViewModel
@@ -41,10 +38,11 @@ fun getDomainModules() = module {
     factory { provideFetchAllTodosUseCase(get(), get()) }
     factory { provideUserTokenUseCase(get()) }
     factory { provideInsertTodoUseCase(get(), get()) }
+    factory { provideDeleteTodoUseCase(get(), get()) }
 }
 
 fun getViewModules() = module {
     viewModel { LoginViewModel(get()) }
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { CreateOrUpdateTodoViewModel(get()) }
 }

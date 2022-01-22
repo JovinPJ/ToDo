@@ -19,5 +19,5 @@ interface TodoDao {
     suspend fun deleteAll()
 
     @Delete
-    suspend fun deleteTodo(vararg todoTables: TodoTables)
+    suspend fun deleteTodo(todoTables: TodoTables)
 }

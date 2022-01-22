@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.learn.todoapp.R
 import com.learn.todoapp.domain.models.ToDo
+import com.learn.todoapp.domain.usecases.DeleteTodoUsecase
 import com.learn.todoapp.domain.usecases.FetchAllTodosUsecase
 import com.learn.todoapp.domain.usecases.UserTokenUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val userTokenUsecase: UserTokenUsecase,
-    private val fetchAllTodosUsecase: FetchAllTodosUsecase
+    private val fetchAllTodosUsecase: FetchAllTodosUsecase,
+    private val deleteTodoUsecase: DeleteTodoUsecase
 ) : BaseViewModel() {
 
     private val todosListLiveData = MutableLiveData<List<ToDo>>()
@@ -36,7 +38,26 @@ class HomeViewModel(
                 hideProgress()
             }
         } catch (e: Exception) {
-            Log.e("CreateTodoViewModel", "insert Todo Caught $e")
+            Log.e("HomeViewModel", "fetch Todos Caught $e")
+            hideProgress()
+            e.message?.let {
+                showToast(e.message)
+            } ?: showToast(toastRes = R.string.unknown_error)
+
+        }
+    }
+
+    fun deleteTodo(todo: ToDo) {
+        try {
+            showProgress()
+            viewModelScope.launch(Dispatchers.IO + handler) {
+                deleteTodoUsecase.deleteTodo(todo)
+                val todos = fetchAllTodosUsecase.fetchAll()
+                todosListLiveData.postValue(todos)
+                hideProgress()
+            }
+        } catch (e: Exception) {
+            Log.e("HomeViewModel", "delete Todo Caught $e")
             hideProgress()
             e.message?.let {
                 showToast(e.message)

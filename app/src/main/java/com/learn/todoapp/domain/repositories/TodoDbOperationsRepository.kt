@@ -7,5 +7,6 @@ interface TodoDbOperationsRepository {
     suspend fun insertTodo(userToken: String, todo: ToDo)
     suspend fun updateTodo(todo: ToDo)
     suspend fun fetchAllTodos(userToken: String): List<ToDo>
+    suspend fun deleteTodo(userToken: String, todo: ToDo)
 
 }

@@ -19,4 +19,8 @@ class ToDoDbOperationsRepositoryImpl(private val todoDao: TodoDao) : TodoDbOpera
     override suspend fun fetchAllTodos(userToken: String): List<ToDo> {
         return todoDao.fetchTodos(userToken).map { it.toDomain() }
     }
+
+    override suspend fun deleteTodo(userToken: String, todo: ToDo) {
+        todoDao.deleteTodo(todo.toDB(userToken))
+    }
 }

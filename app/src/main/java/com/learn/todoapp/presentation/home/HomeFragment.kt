@@ -8,10 +8,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
 import com.learn.todoapp.R
 import com.learn.todoapp.databinding.HomeFragmentBinding
+import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.presentation.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), TodoItemClickListener {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: HomeFragmentBinding
@@ -28,7 +29,7 @@ class HomeFragment : BaseFragment() {
         binding = HomeFragmentBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.adapter = TodoAdapter()
+        binding.adapter = TodoAdapter(this)
         activity?.title = getString(R.string.home_title)
         return binding.root
     }
@@ -58,6 +59,15 @@ class HomeFragment : BaseFragment() {
                 activity?.onBackPressed()
             }
         })
+    }
+
+    override fun onClick(todo: ToDo) {
+
+    }
+
+    override fun onLongClick(todo: ToDo): Boolean {
+        viewModel.deleteTodo(todo)
+        return true
     }
 
 

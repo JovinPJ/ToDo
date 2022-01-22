@@ -3,10 +3,7 @@ package com.learn.todoapp.domain
 import com.learn.todoapp.domain.repositories.LoginRepository
 import com.learn.todoapp.domain.repositories.PreferenceRepository
 import com.learn.todoapp.domain.repositories.TodoDbOperationsRepository
-import com.learn.todoapp.domain.usecases.FetchAllTodosUsecase
-import com.learn.todoapp.domain.usecases.InsertTodoUsecase
-import com.learn.todoapp.domain.usecases.LoginUsecase
-import com.learn.todoapp.domain.usecases.UserTokenUsecase
+import com.learn.todoapp.domain.usecases.*
 
 
 fun provideLoginUseCase(
@@ -27,6 +24,14 @@ fun provideInsertTodoUseCase(
     todoDbOperationsRepository: TodoDbOperationsRepository,
     preferenceRepository: PreferenceRepository
 ): InsertTodoUsecase = InsertTodoUsecase(
+    todoDbOperationsRepository,
+    preferenceRepository
+)
+
+fun provideDeleteTodoUseCase(
+    todoDbOperationsRepository: TodoDbOperationsRepository,
+    preferenceRepository: PreferenceRepository
+): DeleteTodoUsecase = DeleteTodoUsecase(
     todoDbOperationsRepository,
     preferenceRepository
 )

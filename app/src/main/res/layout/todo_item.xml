@@ -8,12 +8,18 @@
         <variable
             name="todo"
             type="com.learn.todoapp.domain.models.ToDo" />
+
+        <variable
+            name="todoItemClick"
+            type="com.learn.todoapp.presentation.home.TodoItemClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="@dimen/margin_large">
+        android:layout_margin="@dimen/margin_large"
+        android:onClick="@{() ->  todoItemClick.onClick(todo)}"
+        android:onLongClick="@{() ->  todoItemClick.onLongClick(todo)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
