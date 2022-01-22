@@ -9,7 +9,8 @@ data class TodoTables(
     @PrimaryKey val title: String,
     val userToken: String = "",
     val description: String? = null,
-    val time: String = "",
-    val date: String? = null,
+    val hour: Int = 0,
+    val minute: Int = 0,
+    val date: Long? = null,
     val type: ToDoType = ToDoType.DAILY
 )

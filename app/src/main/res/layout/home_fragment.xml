@@ -32,6 +32,20 @@
             app:setAdapter="@{adapter}"
             tools:listitem="@layout/todo_item" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/no_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/description"
+            android:text="@string/no_todos"
+            app:isVisible="@{(viewModel.todosListLiveData.size()) &lt;= 0}"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_create_todo"
             android:layout_width="wrap_content"

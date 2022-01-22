@@ -7,7 +7,8 @@ fun TodoTables.toDomain(): ToDo {
     return ToDo(
         title = title,
         description = description,
-        time = time,
+        hour = hour,
+        minute = minute,
         date = date,
         toDoType = type
     )

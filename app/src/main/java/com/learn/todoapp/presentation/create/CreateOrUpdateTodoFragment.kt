@@ -26,7 +26,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
 
     private val rightNow = Calendar.getInstance()
 
-    private var currentSelectedDate: Long = rightNow.timeInMillis
+    private var selectedDate: Long = rightNow.timeInMillis
     private var selectedHour: Int = rightNow.get(Calendar.HOUR_OF_DAY)
     private var selectedMinute: Int = rightNow.get(Calendar.MINUTE)
 
@@ -57,7 +57,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
     }
 
     private fun initializeViews() {
-        binding.tvDate.text = currentSelectedDate.toFormattedDateText()
+        binding.tvDate.text = selectedDate.toFormattedDateText()
         binding.tvTime.text = displayTime(selectedHour, selectedMinute)
     }
 
@@ -72,15 +72,16 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
         viewModel.insertTodo(
             binding.etTitle.text.toString(),
             binding.etDescription.text.toString(),
-            binding.tvTime.text.toString(),
-            binding.tvDate.text.toString(),
+            selectedHour,
+            selectedMinute,
+            selectedDate,
             if (binding.rgTodoType.checkedRadioButtonId == binding.radioDaily.id)
                 ToDoType.DAILY else ToDoType.WEEKLY
         )
     }
 
     private fun showDatePicker() {
-        val selectedDateInMillis = currentSelectedDate
+        val selectedDateInMillis = selectedDate
         val constraintsBuilder =
             CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now())
         MaterialDatePicker.Builder.datePicker()
@@ -92,7 +93,7 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
     }
 
     private fun onDateSelected(dateTimeStampInMillis: Long) {
-        currentSelectedDate = dateTimeStampInMillis
+        selectedDate = dateTimeStampInMillis
         binding.tvDate.text = dateTimeStampInMillis.toFormattedDateText()
     }
 

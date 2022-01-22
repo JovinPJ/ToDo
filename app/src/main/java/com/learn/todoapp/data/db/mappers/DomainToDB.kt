@@ -8,7 +8,8 @@ fun ToDo.toDB(userToken: String): TodoTables {
         title = title,
         userToken = userToken,
         description = description,
-        time = time,
+        hour = hour,
+        minute = minute,
         date = date,
         type = toDoType
     )

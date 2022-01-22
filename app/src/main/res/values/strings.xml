@@ -18,4 +18,5 @@
     <string name="login_failed">Failed to Login</string>
     <string name="unknown_error">Something went wrong</string>
     <string name="description">Description</string>
+    <string name="no_todos">No Todos</string>
 </resources>

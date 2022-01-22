@@ -20,13 +20,13 @@ class CreateOrUpdateTodoViewModel(
     fun getTodoInsertedLiveData(): LiveData<Boolean> = todoInsertedLiveData
 
     fun insertTodo(
-        title: String, desc: String, time: String, date: String, toDoType: ToDoType
+        title: String, desc: String?, hour: Int, minute: Int, date: Long?, toDoType: ToDoType
     ) {
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
                 insertTodoUsecase.insertTodo(
-                    ToDo(title, desc, time, date, toDoType)
+                    ToDo(title, desc, hour, minute, date, toDoType)
                 )
                 todoInsertedLiveData.postValue(true)
                 hideProgress()
