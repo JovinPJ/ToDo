@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.learn.todoapp.R
 import com.learn.todoapp.databinding.LoginFragmentBinding
 import com.learn.todoapp.presentation.base.BaseFragment
 import com.learn.todoapp.presentation.utils.hideKeyboard
@@ -22,6 +23,7 @@ class LoginFragment : BaseFragment() {
         binding = LoginFragmentBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        activity?.title = getString(R.string.login_title)
         return binding.root
     }
 

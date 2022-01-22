@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
+import com.learn.todoapp.R
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.presentation.base.BaseFragment
-import com.learn.todoapp.presentation.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
@@ -29,6 +29,7 @@ class HomeFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.adapter = TodoAdapter()
+        activity?.title = getString(R.string.home_title)
         return binding.root
     }
 

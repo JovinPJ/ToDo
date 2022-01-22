@@ -4,6 +4,9 @@
     <string name="email_address">Enter Email Address</string>
     <string name="enter_password">Enter Password</string>
 
+    <string name="login_title">Login</string>
+    <string name="home_title">Your Todos</string>
+
     <string name="create_todo">Create Todo</string>
     <string name="title">Title</string>
     <string name="hh_mm">HH:mm</string>

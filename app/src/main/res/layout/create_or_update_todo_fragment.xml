@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="@string/title"
+            android:textStyle="bold"
+            android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,19 +32,18 @@
             android:id="@+id/tv_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_large"
             android:hint="@string/hh_mm"
+            app:layout_constraintBottom_toTopOf="@id/rg_todo_type"
             app:layout_constraintEnd_toStartOf="@+id/tv_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_title" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@id/tv_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/dd_mm_yyyy"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fab_create_todo"
             app:layout_constraintStart_toEndOf="@id/tv_time"
             app:layout_constraintTop_toTopOf="@id/tv_time" />
 
@@ -52,9 +53,9 @@
             android:layout_height="wrap_content"
             android:checkedButton="@id/radio_daily"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_time">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fab_create_todo"
+            app:layout_constraintStart_toStartOf="parent">
 
             <RadioButton
                 android:id="@+id/radio_daily"
@@ -71,16 +72,18 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_description"
-            android:hint="@string/description"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_large"
             android:background="@null"
             android:gravity="start"
+            android:hint="@string/description"
+            android:layout_marginBottom="@dimen/margin_large"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rg_todo_type" />
+            app:layout_constraintTop_toBottomOf="@id/et_title" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_create_todo"
