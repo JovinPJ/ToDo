@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.learn.todoapp.R
 import com.learn.todoapp.databinding.HomeFragmentBinding
 import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.presentation.base.BaseFragment
+import com.learn.todoapp.presentation.create.CreateOrUpdateTodoFragment.Companion.ARG_TITLE
 import com.learn.todoapp.presentation.utils.showMsgDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,7 +66,10 @@ class HomeFragment : BaseFragment(), TodoItemClickListener {
     }
 
     override fun onClick(todo: ToDo) {
-
+        findNavController().navigate(
+            R.id.action_homeFragment_to_createOrUpdateTodoFragment,
+            bundleOf(ARG_TITLE to todo.title)
+        )
     }
 
     override fun onLongClick(todo: ToDo): Boolean {

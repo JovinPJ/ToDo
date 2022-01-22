@@ -12,12 +12,16 @@ class ToDoDbOperationsRepositoryImpl(private val todoDao: TodoDao) : TodoDbOpera
         todoDao.insertTodo(todo.toDB(userToken))
     }
 
-    override suspend fun updateTodo(todo: ToDo) {
-        TODO("Not yet implemented")
+    override suspend fun updateTodo(userToken: String, todo: ToDo) {
+        todoDao.updateTodo(todo.toDB(userToken))
     }
 
     override suspend fun fetchAllTodos(userToken: String): List<ToDo> {
         return todoDao.fetchTodos(userToken).map { it.toDomain() }
+    }
+
+    override suspend fun fetchTodo(userToken: String, title: String): ToDo {
+        return todoDao.fetchTodo(userToken, title).toDomain()
     }
 
     override suspend fun deleteTodo(userToken: String, todo: ToDo) {

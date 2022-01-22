@@ -14,6 +14,8 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
 
+    <string name="update_todo">Update Todo</string>
+
     <string name="check_internet">please check your internet connectivity</string>
     <string name="login_failed">Failed to Login</string>
     <string name="unknown_error">Something went wrong</string>

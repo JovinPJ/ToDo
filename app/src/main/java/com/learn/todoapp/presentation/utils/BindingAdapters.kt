@@ -18,11 +18,15 @@ fun RecyclerView.bindRecyclerViewAdapter(adapter: RecyclerView.Adapter<*>) {
 }
 
 @BindingAdapter(value = ["displayTime"])
-fun TextView.displayTime(todo: ToDo) {
-    text = displayTime(todo.hour, todo.minute)
+fun TextView.displayTime(todo: ToDo?) {
+    todo?.let {
+        text = displayTime(todo.hour, todo.minute)
+    }
 }
 
 @BindingAdapter(value = ["displayDate"])
 fun TextView.displayDate(date: Long?) {
-    text = date?.toFormattedDateText()
+    date?.let {
+        text = it.toFormattedDateText()
+    }
 }

@@ -11,10 +11,10 @@ fun provideLoginUseCase(
     preferenceRepository: PreferenceRepository
 ): LoginUsecase = LoginUsecase(loginRepository, preferenceRepository)
 
-fun provideFetchAllTodosUseCase(
+fun provideFetchTodosUseCase(
     todoDbOperationsRepository: TodoDbOperationsRepository,
     preferenceRepository: PreferenceRepository
-): FetchAllTodosUsecase = FetchAllTodosUsecase(todoDbOperationsRepository, preferenceRepository)
+): FetchTodoUsecase = FetchTodoUsecase(todoDbOperationsRepository, preferenceRepository)
 
 fun provideUserTokenUseCase(
     preferenceRepository: PreferenceRepository
@@ -24,6 +24,14 @@ fun provideInsertTodoUseCase(
     todoDbOperationsRepository: TodoDbOperationsRepository,
     preferenceRepository: PreferenceRepository
 ): InsertTodoUsecase = InsertTodoUsecase(
+    todoDbOperationsRepository,
+    preferenceRepository
+)
+
+fun provideUpdateTodoUseCase(
+    todoDbOperationsRepository: TodoDbOperationsRepository,
+    preferenceRepository: PreferenceRepository
+): UpdateTodoUsecase = UpdateTodoUsecase(
     todoDbOperationsRepository,
     preferenceRepository
 )

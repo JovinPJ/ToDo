@@ -30,6 +30,18 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
     private var selectedHour: Int = rightNow.get(Calendar.HOUR_OF_DAY)
     private var selectedMinute: Int = rightNow.get(Calendar.MINUTE)
 
+    companion object {
+        const val ARG_TITLE = "arg_title"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.getString(ARG_TITLE)?.let {
+            viewModel.fetchTodo(it)
+            activity?.title = getString(R.string.update_todo)
+        } ?: kotlin.run { activity?.title = getString(R.string.create_todo) }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +49,6 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
         binding = CreateOrUpdateTodoFragmentBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        activity?.title = getString(R.string.create_todo)
         return binding.root
     }
 
@@ -65,6 +76,13 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
         setBaseObserver(viewModel)
         viewModel.getTodoInsertedLiveData().observe(viewLifecycleOwner) { isInserted ->
             if (isInserted) findNavController().popBackStack()
+        }
+        viewModel.getTodoLiveData().observe(viewLifecycleOwner) { todo ->
+            val selectedTypeId = when (todo.toDoType) {
+                ToDoType.WEEKLY -> binding.radioWeekly.id
+                ToDoType.DAILY -> binding.radioDaily.id
+            }
+            binding.rgTodoType.check(selectedTypeId)
         }
     }
 

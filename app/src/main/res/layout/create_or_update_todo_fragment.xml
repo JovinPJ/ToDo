@@ -22,8 +22,9 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="@string/title"
-            android:textStyle="bold"
+            android:text="@{viewModel.getTodoLiveData().title}"
             android:textSize="@dimen/title_size"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             android:hint="@string/hh_mm"
+            app:displayTime="@{viewModel.getTodoLiveData()}"
             app:layout_constraintBottom_toTopOf="@id/rg_todo_type"
             app:layout_constraintEnd_toStartOf="@+id/tv_date"
             app:layout_constraintStart_toStartOf="parent" />
@@ -43,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/dd_mm_yyyy"
+            app:displayDate="@{viewModel.getTodoLiveData().date}"
             app:layout_constraintEnd_toStartOf="@id/fab_create_todo"
             app:layout_constraintStart_toEndOf="@id/tv_time"
             app:layout_constraintTop_toTopOf="@id/tv_time" />
@@ -75,10 +78,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
             android:background="@null"
             android:gravity="start"
             android:hint="@string/description"
-            android:layout_marginBottom="@dimen/margin_large"
+            android:text="@{viewModel.getTodoLiveData().description}"
 
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"

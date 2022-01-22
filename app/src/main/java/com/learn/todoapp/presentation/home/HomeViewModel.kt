@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.learn.todoapp.R
 import com.learn.todoapp.domain.models.ToDo
 import com.learn.todoapp.domain.usecases.DeleteTodoUsecase
-import com.learn.todoapp.domain.usecases.FetchAllTodosUsecase
+import com.learn.todoapp.domain.usecases.FetchTodoUsecase
 import com.learn.todoapp.domain.usecases.UserTokenUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val userTokenUsecase: UserTokenUsecase,
-    private val fetchAllTodosUsecase: FetchAllTodosUsecase,
+    private val fetchTodoUsecase: FetchTodoUsecase,
     private val deleteTodoUsecase: DeleteTodoUsecase
 ) : BaseViewModel() {
 
@@ -33,7 +33,7 @@ class HomeViewModel(
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
-                val todos = fetchAllTodosUsecase.fetchAll()
+                val todos = fetchTodoUsecase.fetchAll()
                 todosListLiveData.postValue(todos)
                 hideProgress()
             }
@@ -52,7 +52,7 @@ class HomeViewModel(
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
                 deleteTodoUsecase.deleteTodo(todo)
-                val todos = fetchAllTodosUsecase.fetchAll()
+                val todos = fetchTodoUsecase.fetchAll()
                 todosListLiveData.postValue(todos)
                 hideProgress()
             }
