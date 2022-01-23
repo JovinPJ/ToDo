@@ -26,4 +26,12 @@
     <string name="delete">Delete</string>
     <string name="delete_confirm">are you sure to delete?</string>
     <string name="cancel">Cancel</string>
+
+    <string name="empty_email">please enter your Email address</string>
+    <string name="invalid_email">Invalid Email address</string>
+
+    <string name="empty_password">password field is empty</string>
+    <string name="password_min_length">minimum 5 characters required</string>
+
+    <string name="empty_todo_title">Todo title must not be empty</string>
 </resources>

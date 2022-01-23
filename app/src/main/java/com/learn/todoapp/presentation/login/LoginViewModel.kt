@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.learn.todoapp.R
 import com.learn.todoapp.domain.usecases.LoginUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
+import com.learn.todoapp.presentation.utils.isEmailValid
+import com.learn.todoapp.presentation.utils.isPasswordValid
+import com.learn.todoapp.presentation.utils.models.ValidationResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,6 +21,7 @@ class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
 
     fun login(email: String, password: String) {
         try {
+            if (!isDetailsValid(email, password)) return
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
                 val loginResponse = loginUsecase.login(email, password)
@@ -39,6 +43,21 @@ class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
             } ?: showToast(toastRes = R.string.unknown_error)
 
         }
+    }
+
+    private fun isDetailsValid(email: String, password: String): Boolean {
+        var isValid = email.isEmailValid()
+        if (isValid is ValidationResponse.ValidationFailure) {
+            showToast(toastRes = isValid.msgRes)
+            return false
+        }
+        isValid = password.isPasswordValid()
+        if (isValid is ValidationResponse.ValidationFailure) {
+            showToast(toastRes = isValid.msgRes)
+            return false
+        }
+
+        return true
     }
 
 }

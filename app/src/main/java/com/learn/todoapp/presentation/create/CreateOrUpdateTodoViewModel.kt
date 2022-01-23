@@ -10,6 +10,8 @@ import com.learn.todoapp.domain.models.ToDoType
 import com.learn.todoapp.domain.usecases.FetchTodoUsecase
 import com.learn.todoapp.domain.usecases.InsertTodoUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
+import com.learn.todoapp.presentation.utils.isTodoTitleValid
+import com.learn.todoapp.presentation.utils.models.ValidationResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -28,6 +30,7 @@ class CreateOrUpdateTodoViewModel(
     fun insertOrUpdateTodo(
         title: String, desc: String?, hour: Int, minute: Int, date: Long?, toDoType: ToDoType
     ) {
+        if (!isTodoTitleValid(title)) return
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
@@ -46,6 +49,14 @@ class CreateOrUpdateTodoViewModel(
 
         }
 
+    }
+
+    private fun isTodoTitleValid(title: String): Boolean {
+        val isValid = title.isTodoTitleValid()
+        return if (isValid is ValidationResponse.ValidationFailure) {
+            showToast(toastRes = isValid.msgRes)
+            false
+        } else true
     }
 
     fun fetchTodo(id: Int) {
