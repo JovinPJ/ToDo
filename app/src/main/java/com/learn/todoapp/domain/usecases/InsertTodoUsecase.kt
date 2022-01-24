@@ -14,7 +14,10 @@ class InsertTodoUsecase(
         return preferenceRepository.getUserToken()?.let {
             todoDbOperationsRepository.insertOrUpdateTodo(it, todo)
             return registerAlarmUsecase.registerOrUpdateAlarm(
-                todoDbOperationsRepository.fetchLastTodo()
+                if (todo.id > 0) // update mode
+                    todoDbOperationsRepository.fetchTodo(it, todo.id)
+                else
+                    todoDbOperationsRepository.fetchLastTodo()
             )
         } ?: kotlin.run {
             // is user logged in?
