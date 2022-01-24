@@ -6,14 +6,19 @@ import com.learn.todoapp.domain.repositories.TodoDbOperationsRepository
 
 class InsertTodoUsecase(
     private val todoDbOperationsRepository: TodoDbOperationsRepository,
-    private val preferenceRepository: PreferenceRepository
+    private val preferenceRepository: PreferenceRepository,
+    private val registerAlarmUsecase: RegisterAlarmUsecase
 ) {
 
-    suspend fun insertOrUpdateTodo(todo: ToDo) {
-        preferenceRepository.getUserToken()?.let {
+    suspend fun insertOrUpdateTodo(todo: ToDo): Long {
+        return preferenceRepository.getUserToken()?.let {
             todoDbOperationsRepository.insertOrUpdateTodo(it, todo)
+            return registerAlarmUsecase.registerOrUpdateAlarm(
+                todoDbOperationsRepository.fetchLastTodo()
+            )
         } ?: kotlin.run {
             // is user logged in?
+            return 0L
         }
     }
 }

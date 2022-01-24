@@ -1,5 +1,8 @@
 package com.learn.todoapp.presentation.di
 
+import com.learn.todoapp.data.alarm.provideAlarmHelper
+import com.learn.todoapp.data.alarm.provideAlarmManager
+import com.learn.todoapp.data.alarm.provideAlarmRepository
 import com.learn.todoapp.data.api.provideRetrofit
 import com.learn.todoapp.data.api.provideTodoApi
 import com.learn.todoapp.data.db.*
@@ -37,7 +40,8 @@ fun getDomainModules() = module {
     factory { provideLoginUseCase(get(), get()) }
     factory { provideFetchTodosUseCase(get(), get()) }
     factory { provideUserTokenUseCase(get()) }
-    factory { provideInsertTodoUseCase(get(), get()) }
+    factory { provideRegisterAlarmUseCase(get()) }
+    factory { provideInsertTodoUseCase(get(), get(), get()) }
     factory { provideDeleteTodoUseCase(get(), get()) }
 }
 
@@ -45,4 +49,10 @@ fun getViewModules() = module {
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { CreateOrUpdateTodoViewModel(get(), get()) }
+}
+
+fun getAlarmModules() = module {
+    single { provideAlarmManager(androidContext()) }
+    single { provideAlarmHelper(androidContext(), get()) }
+    factory { provideAlarmRepository(get()) }
 }

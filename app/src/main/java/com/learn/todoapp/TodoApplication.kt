@@ -1,6 +1,7 @@
 package com.learn.todoapp
 
 import android.app.Application
+import com.learn.todoapp.presentation.di.getAlarmModules
 import com.learn.todoapp.presentation.di.getDataModules
 import com.learn.todoapp.presentation.di.getDomainModules
 import com.learn.todoapp.presentation.di.getViewModules
@@ -23,7 +24,8 @@ class TodoApplication : Application() {
             modules(
                 getDataModules(),
                 getDomainModules(),
-                getViewModules()
+                getViewModules(),
+                getAlarmModules()
             )
         }
 

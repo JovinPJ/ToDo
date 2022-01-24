@@ -20,9 +20,9 @@ class CreateOrUpdateTodoViewModel(
     private val fetchTodoUsecase: FetchTodoUsecase
 ) : BaseViewModel() {
 
-    private val todoInsertedLiveData = MutableLiveData<Boolean>()
+    private val todoInsertedLiveData = MutableLiveData<Long>()
     private val todoLiveData = MutableLiveData<ToDo>()
-    fun getTodoInsertedLiveData(): LiveData<Boolean> = todoInsertedLiveData
+    fun getTodoInsertedLiveData(): LiveData<Long> = todoInsertedLiveData
     fun getTodoLiveData(): LiveData<ToDo> = todoLiveData
 
     private var todoId: Int = 0  // Id will be updated on UpdateMode
@@ -34,10 +34,10 @@ class CreateOrUpdateTodoViewModel(
         try {
             showProgress()
             viewModelScope.launch(Dispatchers.IO + handler) {
-                insertTodoUsecase.insertOrUpdateTodo(
+                val alarmTriggerTime = insertTodoUsecase.insertOrUpdateTodo(
                     ToDo(todoId, title, desc, hour, minute, date, toDoType)
                 )
-                todoInsertedLiveData.postValue(true)
+                todoInsertedLiveData.postValue(alarmTriggerTime)
                 hideProgress()
             }
         } catch (e: Exception) {

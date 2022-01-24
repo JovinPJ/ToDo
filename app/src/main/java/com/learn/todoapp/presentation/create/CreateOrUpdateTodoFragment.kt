@@ -14,7 +14,9 @@ import com.learn.todoapp.R
 import com.learn.todoapp.databinding.CreateOrUpdateTodoFragmentBinding
 import com.learn.todoapp.domain.models.ToDoType
 import com.learn.todoapp.presentation.base.BaseFragment
+import com.learn.todoapp.presentation.utils.ALARM_TIME_DISPLAY_FORMAT
 import com.learn.todoapp.presentation.utils.displayTime
+import com.learn.todoapp.presentation.utils.showToast
 import com.learn.todoapp.presentation.utils.toFormattedDateText
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -78,8 +80,16 @@ class CreateOrUpdateTodoFragment : BaseFragment() {
 
     private fun setObservers() {
         setBaseObserver(viewModel)
-        viewModel.getTodoInsertedLiveData().observe(viewLifecycleOwner) { isInserted ->
-            if (isInserted) findNavController().popBackStack()
+        viewModel.getTodoInsertedLiveData().observe(viewLifecycleOwner) { alarmTime ->
+
+            if (alarmTime > 0) showToast(
+                getString(
+                    R.string.alarm_set_on, alarmTime.toFormattedDateText(
+                        ALARM_TIME_DISPLAY_FORMAT
+                    )
+                )
+            )
+            findNavController().popBackStack()
         }
         viewModel.getTodoLiveData().observe(viewLifecycleOwner) { todo ->
             todo.date?.let {

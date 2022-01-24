@@ -27,6 +27,10 @@ class ToDoDbOperationsRepositoryImpl(private val todoDao: TodoDao) : TodoDbOpera
         return todoDao.fetchTodo(userToken, id).toDomain()
     }
 
+    override suspend fun fetchLastTodo(): ToDo {
+        return todoDao.fetchLastTodo().toDomain()
+    }
+
     override suspend fun deleteTodo(userToken: String, todo: ToDo) {
         todoDao.deleteTodo(todo.toDB(userToken))
     }

@@ -5,12 +5,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val DATE_DISPLAY_FORMAT = "dd/MM/yyyy"
+const val ALARM_TIME_DISPLAY_FORMAT = "EEE, d MMM yyyy, HH:mm"
 
-fun Long.toFormattedDateText(): String {
+fun Long.toFormattedDateText(format: String = DATE_DISPLAY_FORMAT): String {
     return try {
         val date = Date(this)
         val simpleDateFormat: DateFormat =
-            SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.getDefault())
+            SimpleDateFormat(format, Locale.getDefault())
         simpleDateFormat.format(date)
     } catch (e: Exception) {
         ""
