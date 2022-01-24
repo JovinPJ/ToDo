@@ -54,6 +54,14 @@ class AlarmHelper(private val context: Context, private val alarmManager: AlarmM
         return alarmTriggerTime
     }
 
+
+    fun cancelAlarm(alarmToDo: AlarmToDo) {
+        val pendingIntent = getPendingIntent(alarmToDo)
+        pendingIntent?.let {
+            alarmManager.cancel(it)
+        }
+    }
+
     private fun registerAlarm(
         alarmTriggerTime: Long,
         pendingIntent: PendingIntent?
@@ -86,5 +94,9 @@ class AlarmHelper(private val context: Context, private val alarmManager: AlarmM
     private fun getFlag() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     else PendingIntent.FLAG_UPDATE_CURRENT
+
+    fun reRegisterAllAlarms() {
+
+    }
 
 }

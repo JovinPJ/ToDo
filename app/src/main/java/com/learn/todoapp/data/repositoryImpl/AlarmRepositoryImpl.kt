@@ -14,4 +14,8 @@ class AlarmRepositoryImpl(private val alarmHelper: AlarmHelper) : AlarmRepositor
         return alarmHelper.updateAlarm(todo.toModel())
     }
 
+    override suspend fun cancelAlarm(todo: ToDo) {
+        alarmHelper.cancelAlarm(todo.toModel())
+    }
+
 }

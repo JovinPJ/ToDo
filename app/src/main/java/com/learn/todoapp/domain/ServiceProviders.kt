@@ -23,16 +23,16 @@ fun provideUserTokenUseCase(
 
 fun provideRegisterAlarmUseCase(
     alarmRepository: AlarmRepository
-): RegisterAlarmUsecase = RegisterAlarmUsecase(alarmRepository)
+): AlarmUsecase = AlarmUsecase(alarmRepository)
 
 fun provideInsertTodoUseCase(
     todoDbOperationsRepository: TodoDbOperationsRepository,
     preferenceRepository: PreferenceRepository,
-    registerAlarmUsecase: RegisterAlarmUsecase
+    alarmUsecase: AlarmUsecase
 ): InsertTodoUsecase = InsertTodoUsecase(
     todoDbOperationsRepository,
     preferenceRepository,
-    registerAlarmUsecase
+    alarmUsecase
 )
 
 fun provideDeleteTodoUseCase(
