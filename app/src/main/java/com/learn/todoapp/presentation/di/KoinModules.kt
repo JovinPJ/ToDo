@@ -6,6 +6,7 @@ import com.learn.todoapp.data.alarm.provideAlarmRepository
 import com.learn.todoapp.data.api.provideRetrofit
 import com.learn.todoapp.data.api.provideTodoApi
 import com.learn.todoapp.data.db.*
+import com.learn.todoapp.data.notification.provideNotificationHelper
 import com.learn.todoapp.data.repositoryImpl.provideLoginRepository
 import com.learn.todoapp.domain.*
 import com.learn.todoapp.presentation.create.CreateOrUpdateTodoViewModel
@@ -54,5 +55,6 @@ fun getViewModules() = module {
 fun getAlarmModules() = module {
     single { provideAlarmManager(androidContext()) }
     single { provideAlarmHelper(androidContext(), get()) }
+    single { provideNotificationHelper(androidContext()) }
     factory { provideAlarmRepository(get()) }
 }

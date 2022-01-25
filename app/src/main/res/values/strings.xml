@@ -35,4 +35,7 @@
 
     <string name="empty_todo_title">Todo title must not be empty</string>
     <string name="alarm_set_on">Alarm set : \n%s</string>
+
+    <string name="channel_name">Todo</string>
+    <string name="channel_description">All todo notification</string>
 </resources>
