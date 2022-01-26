@@ -30,8 +30,3 @@ fun displayTime(hour: Int, minute: Int, is24H: Boolean = true): String {
     val minuteAsText = if (minute < 10) "0$minute" else minute
     return "$hourAsText:$minuteAsText$amPm"
 }
-
-
-fun displayTimeInHHMm(h: Int, m: Int): String {
-    return String.format("%02d:%02d", h, m)
-}

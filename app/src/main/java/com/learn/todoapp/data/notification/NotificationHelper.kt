@@ -17,7 +17,6 @@ import com.learn.todoapp.data.notification.NotificationConstants.GROUP_KEY_TODO
 import com.learn.todoapp.data.notification.NotificationConstants.KEY_TODO_EXTRA
 import com.learn.todoapp.data.notification.NotificationConstants.NOTIFICATION_CHANNEL_ID
 import com.learn.todoapp.data.notification.NotificationConstants.NOTIFICATION_FULL_SCREEN_REQUEST_CODE
-import com.learn.todoapp.data.notification.FullScreenNotificationActivity
 
 class NotificationHelper(private val context: Context) {
 

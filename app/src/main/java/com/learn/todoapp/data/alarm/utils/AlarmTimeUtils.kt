@@ -52,12 +52,14 @@ fun AlarmToDo?.getAlarmTriggerStartDate(): Long {
             selectedCalendar.get(Calendar.MONTH),
             selectedCalendar.get(Calendar.DATE)
         )
-    else if(this?.toDoType == ToDoType.WEEKLY){
+    else if (this?.toDoType == ToDoType.WEEKLY) {
         val msDiff: Long = rightNowCalendar.timeInMillis - selectedCalendar.timeInMillis
         val daysDiff: Long = TimeUnit.MILLISECONDS.toDays(msDiff)
         val elapsedDaysInWeek = daysDiff % 7 // getting the days need to complete a week
-        rightNowCalendar.set(Calendar.DATE,
-            rightNowCalendar.get(Calendar.DATE) + (7 - elapsedDaysInWeek.toInt()))
+        rightNowCalendar.set(
+            Calendar.DATE,
+            rightNowCalendar.get(Calendar.DATE) + (7 - elapsedDaysInWeek.toInt())
+        )
     }
 
     return rightNowCalendar.timeInMillis

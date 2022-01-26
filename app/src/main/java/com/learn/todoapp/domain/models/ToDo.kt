@@ -7,5 +7,6 @@ data class ToDo(
     val hour: Int,
     val minute: Int,
     val date: Long?,
-    val toDoType: ToDoType
+    val toDoType: ToDoType,
+    var alarmTime: Long = 0
 )

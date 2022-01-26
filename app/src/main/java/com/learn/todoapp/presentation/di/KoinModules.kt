@@ -54,7 +54,7 @@ fun getViewModules() = module {
 
 fun getAlarmModules() = module {
     single { provideAlarmManager(androidContext()) }
-    single { provideAlarmHelper(androidContext(), get()) }
+    single { provideAlarmHelper(androidContext(), get(), get()) }
     single { provideNotificationHelper(androidContext()) }
     factory { provideAlarmRepository(get()) }
 }

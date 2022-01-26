@@ -11,7 +11,8 @@ data class AlarmToDo(
     val hour: Int,
     val minute: Int,
     val date: Long?,
-    val toDoType: ToDoType
+    val toDoType: ToDoType,
+    var alarmTime: Long = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -20,7 +21,8 @@ data class AlarmToDo(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readValue(Long::class.java.classLoader) as? Long,
-        enumValueOf<ToDoType>(parcel.readString() ?: "")
+        enumValueOf<ToDoType>(parcel.readString() ?: ""),
+        parcel.readLong()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -31,6 +33,7 @@ data class AlarmToDo(
         parcel.writeInt(minute)
         parcel.writeValue(date)
         parcel.writeString(this.toDoType.name)
+        parcel.writeLong(alarmTime)
     }
 
     override fun describeContents(): Int {
@@ -46,4 +49,5 @@ data class AlarmToDo(
             return arrayOfNulls(size)
         }
     }
+
 }

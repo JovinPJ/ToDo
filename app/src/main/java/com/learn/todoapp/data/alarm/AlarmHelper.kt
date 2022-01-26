@@ -13,44 +13,46 @@ import com.learn.todoapp.data.alarm.utils.getAlarmTimeInterval
 import com.learn.todoapp.data.alarm.utils.getAlarmTriggerStartDate
 import com.learn.todoapp.data.alarm.utils.getUpdateAlarmTriggerStartTime
 import com.learn.todoapp.data.alarm.utils.getUpdateIntervalMillis
+import com.learn.todoapp.data.db.dao.TodoDao
 
-class AlarmHelper(private val context: Context, private val alarmManager: AlarmManager) {
+class AlarmHelper(
+    private val context: Context,
+    private val alarmManager: AlarmManager,
+    private val todoDao: TodoDao
+) {
 
-    fun registerAlarm(alarmToDo: AlarmToDo): Long {
-        var alarmTriggerTime = 0L
-        val pendingIntent = getPendingIntent(alarmToDo)
-        pendingIntent?.let {
-            val alarmTriggerDate = alarmToDo.getAlarmTriggerStartDate()
-            val alarmTimeInterval = alarmToDo.getAlarmTimeInterval()
-            alarmTriggerTime = alarmTriggerDate + alarmTimeInterval
-            registerAlarm(alarmTriggerTime, pendingIntent)
-            Log.e(
-                "Alarm", "Registered ${alarmToDo.id} for Time $alarmTimeInterval \n" +
-                        "Alarm Trigger Start Date $alarmTriggerDate \n" +
-                        "Final Alarm Trigger Time : $alarmTriggerTime"
-            )
-        }
+    suspend fun registerAlarm(alarmToDo: AlarmToDo): Long { // calls after user update or create Todo
+        val alarmTriggerDate = alarmToDo.getAlarmTriggerStartDate()
+        val alarmTimeInterval = alarmToDo.getAlarmTimeInterval()
+        val alarmTriggerTime = alarmTriggerDate + alarmTimeInterval
+        alarmToDo.alarmTime = alarmTriggerTime
+
+        registerAlarmAndUpdateDB(alarmTriggerTime, alarmToDo)
+        Log.e(
+            "Alarm", "Registered ${alarmToDo.id} for Time $alarmTimeInterval \n" +
+                    "Alarm Trigger Start Date $alarmTriggerDate \n" +
+                    "Final Alarm Trigger Time : $alarmTriggerTime"
+        )
         return alarmTriggerTime
     }
 
-    fun updateAlarm(alarmToDo: AlarmToDo): Long {
-        var alarmTriggerTime = 0L
-        val pendingIntent = getPendingIntent(alarmToDo)
-        pendingIntent?.let {
-            val alarmTimeInterval = alarmToDo.toDoType.getUpdateIntervalMillis()
-            val alarmTriggerStartTime =
-                getUpdateAlarmTriggerStartTime( // used to avoid 'AlarmManager delays'
-                    alarmToDo.hour,
-                    alarmToDo.minute
-                )
-            alarmTriggerTime = alarmTriggerStartTime + alarmTimeInterval
-            registerAlarm(alarmTriggerTime, pendingIntent)
-            Log.e(
-                "Alarm", "Registered ${alarmToDo.id} for Time $alarmTimeInterval \n" +
-                        "Alarm Trigger Start Date $alarmTriggerStartTime \n" +
-                        "Final Alarm Trigger Time : $alarmTriggerTime"
+    suspend fun updateAlarm(alarmToDo: AlarmToDo): Long {  // only calls from Broadcast
+        val alarmTimeInterval = alarmToDo.toDoType.getUpdateIntervalMillis()
+        val alarmTriggerStartTime =
+            getUpdateAlarmTriggerStartTime( // used to avoid 'AlarmManager delays'
+                alarmToDo.hour,
+                alarmToDo.minute
             )
-        }
+        val alarmTriggerTime = alarmTriggerStartTime + alarmTimeInterval
+        alarmToDo.alarmTime = alarmTriggerTime
+
+        registerAlarmAndUpdateDB(alarmTriggerTime, alarmToDo)
+        Log.e(
+            "Alarm", "Registered ${alarmToDo.id} for Time $alarmTimeInterval \n" +
+                    "Alarm Trigger Start Date $alarmTriggerStartTime \n" +
+                    "Final Alarm Trigger Time : $alarmTriggerTime"
+        )
+
         return alarmTriggerTime
     }
 
@@ -62,17 +64,21 @@ class AlarmHelper(private val context: Context, private val alarmManager: AlarmM
         }
     }
 
-    private fun registerAlarm(
+    private suspend fun registerAlarmAndUpdateDB(
         alarmTriggerTime: Long,
-        pendingIntent: PendingIntent?
+        alarmToDo: AlarmToDo
     ) {
-        alarmManager.setAlarmClock( // using setAlarmClock method to trigger on Exact Time
-            AlarmManager.AlarmClockInfo(
-                alarmTriggerTime,
+        val pendingIntent = getPendingIntent(alarmToDo)
+        pendingIntent?.let {
+            alarmManager.setAlarmClock( // using setAlarmClock method to trigger on Exact Time
+                AlarmManager.AlarmClockInfo(
+                    alarmTriggerTime,
+                    pendingIntent
+                ),
                 pendingIntent
-            ),
-            pendingIntent
-        )
+            )
+        }
+        todoDao.updateTodoAlarmTime(alarmToDo.id, alarmTriggerTime)
     }
 
 

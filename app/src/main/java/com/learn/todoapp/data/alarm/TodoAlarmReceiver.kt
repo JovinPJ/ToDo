@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.learn.todoapp.R
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.BOOT_COMPLETED
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.KEY_TODO
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.TIME_SET
@@ -13,6 +14,7 @@ import com.learn.todoapp.data.alarm.model.AlarmToDo
 import com.learn.todoapp.data.notification.NotificationHelper
 import com.learn.todoapp.presentation.utils.ALARM_TIME_DISPLAY_FORMAT
 import com.learn.todoapp.presentation.utils.toFormattedDateText
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -27,8 +29,13 @@ class TodoAlarmReceiver : BroadcastReceiver(), KoinComponent {
                 val alarmToDo = intent.getParcelableExtra<AlarmToDo>(KEY_TODO)
                 alarmToDo?.let {
                     Log.i("Alarm", "Alarm Type : ${it.toDoType}")
-                    val alarmTime = alarmHelper.updateAlarm(it)
-                    showToast(alarmTime, context)
+                    CoroutineScope(Dispatchers.IO + handler).launch {
+                        val alarmTime = alarmHelper.updateAlarm(it)
+                        withContext(Dispatchers.Main) {
+                            showToast(alarmTime, context)
+                            cancel()
+                        }
+                    }
                     notificationHelper.showNotification(it)
                 }
             }
@@ -42,14 +49,19 @@ class TodoAlarmReceiver : BroadcastReceiver(), KoinComponent {
         }
     }
 
+    private val handler = CoroutineExceptionHandler { _, exception ->
+        val msg = "Caught $exception"
+        Log.e("ExceptionHandler", msg)
+    }
+
     private fun showToast(alarmTime: Long, context: Context?) {
-        if (alarmTime > 0)
+        if (alarmTime > 0 && context != null)
             Toast.makeText(
-                context,
-                "Alarm set on \n" +
-                        alarmTime.toFormattedDateText(
-                            ALARM_TIME_DISPLAY_FORMAT
-                        ), Toast.LENGTH_SHORT
+                context, context.getString(
+                    R.string.alarm_at, alarmTime.toFormattedDateText(
+                        ALARM_TIME_DISPLAY_FORMAT
+                    )
+                ), Toast.LENGTH_SHORT
             ).show()
     }
 }

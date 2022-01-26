@@ -11,6 +11,7 @@ fun ToDo.toModel(): AlarmToDo {
         hour = hour,
         minute = minute,
         date = date,
-        toDoType = toDoType
+        toDoType = toDoType,
+        alarmTime = alarmTime
     )
 }

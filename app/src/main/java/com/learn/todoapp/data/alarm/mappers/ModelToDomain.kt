@@ -11,6 +11,7 @@ fun AlarmToDo.toDomain(): ToDo {
         hour = hour,
         minute = minute,
         date = date,
-        toDoType = toDoType
+        toDoType = toDoType,
+        alarmTime = alarmTime
     )
 }

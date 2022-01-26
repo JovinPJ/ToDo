@@ -11,6 +11,7 @@ fun ToDo.toDB(userToken: String): TodoTables {
         hour = hour,
         minute = minute,
         date = date,
-        type = toDoType
+        type = toDoType,
+        alarmTime = alarmTime
     )
 }

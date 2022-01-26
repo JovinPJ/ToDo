@@ -11,6 +11,7 @@ fun TodoTables.toDomain(): ToDo {
         hour = hour,
         minute = minute,
         date = date,
-        toDoType = type
+        toDoType = type,
+        alarmTime = alarmTime ?: 0L
     )
 }

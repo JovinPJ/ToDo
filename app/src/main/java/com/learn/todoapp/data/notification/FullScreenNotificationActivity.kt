@@ -1,7 +1,6 @@
 package com.learn.todoapp.data.notification
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.learn.todoapp.data.alarm.mappers.toDomain
 import com.learn.todoapp.data.alarm.model.AlarmToDo

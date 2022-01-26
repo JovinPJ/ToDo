@@ -20,6 +20,7 @@ fun providePreferenceRepository(sharedPreferences: SharedPreferences): Preferenc
 
 fun provideTodoRoomDatabase(context: Context): TodoAppDatabase {
     return Room.databaseBuilder(context, TodoAppDatabase::class.java, DB_NAME)
+        .addMigrations(MIGRATION_1_2)
         .fallbackToDestructiveMigration()
         .build()
 }

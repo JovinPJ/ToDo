@@ -13,5 +13,6 @@ data class TodoTables(
     val hour: Int = 0,
     val minute: Int = 0,
     val date: Long? = null,
-    val type: ToDoType = ToDoType.DAILY
+    val type: ToDoType = ToDoType.DAILY,
+    val alarmTime: Long? = null
 )

@@ -38,4 +38,5 @@
 
     <string name="channel_name">Todo</string>
     <string name="channel_description">All todo notification</string>
+    <string name="alarm_at">"Alarm at : %s"</string>
 </resources>

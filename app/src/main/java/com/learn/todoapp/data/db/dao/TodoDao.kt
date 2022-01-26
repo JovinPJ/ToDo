@@ -10,16 +10,19 @@ interface TodoDao {
     suspend fun insertTodo(todoTables: TodoTables)
 
     @Query("SELECT * FROM Todo WHERE `userToken` = :userToken")
-    fun fetchTodos(userToken: String): List<TodoTables>
+    suspend fun fetchTodos(userToken: String): List<TodoTables>
 
     @Query("SELECT * FROM Todo WHERE `userToken` = :userToken AND `id` = :id ")
-    fun fetchTodo(userToken: String, id: Int): TodoTables
+    suspend fun fetchTodo(userToken: String, id: Int): TodoTables
 
     @Query("SELECT * FROM Todo ORDER BY `id` DESC LIMIT 1")
-    fun fetchLastTodo(): TodoTables
+    suspend fun fetchLastTodo(): TodoTables
 
     @Update
     suspend fun updateTodo(todoTables: TodoTables)
+
+    @Query("UPDATE Todo SET alarmTime=:alarmTime WHERE id = :id")
+    suspend fun updateTodoAlarmTime(id: Int, alarmTime: Long)
 
     @Query("DELETE FROM Todo")
     suspend fun deleteAll()

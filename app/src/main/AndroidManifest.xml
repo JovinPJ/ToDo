@@ -41,7 +41,7 @@
         <activity
             android:name=".data.notification.FullScreenNotificationActivity"
             android:showOnLockScreen="true"
-            android:parentActivityName=".presentation.MainActivity"/>
+            android:parentActivityName=".presentation.MainActivity" />
     </application>
 
 </manifest>
