@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.Log
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.KEY_TODO
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.TODO_ALARM_ACTION
+import com.learn.todoapp.data.alarm.mappers.toModel
 import com.learn.todoapp.data.alarm.model.AlarmToDo
 import com.learn.todoapp.data.alarm.utils.getAlarmTimeInterval
 import com.learn.todoapp.data.alarm.utils.getAlarmTriggerStartDate
@@ -39,7 +40,7 @@ class AlarmHelper(
     suspend fun updateAlarm(alarmToDo: AlarmToDo): Long {  // only calls from Broadcast
         val alarmTimeInterval = alarmToDo.toDoType.getUpdateIntervalMillis()
         val alarmTriggerStartTime =
-            getUpdateAlarmTriggerStartTime( // used to avoid 'AlarmManager delays'
+            getUpdateAlarmTriggerStartTime(
                 alarmToDo.hour,
                 alarmToDo.minute
             )
@@ -62,6 +63,11 @@ class AlarmHelper(
         pendingIntent?.let {
             alarmManager.cancel(it)
         }
+    }
+
+    suspend fun reRegisterAllAlarms() {
+        val todos = todoDao.fetchAllTodos()
+        todos.map { registerAlarm(it.toModel()) }
     }
 
     private suspend fun registerAlarmAndUpdateDB(
@@ -100,9 +106,5 @@ class AlarmHelper(
     private fun getFlag() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     else PendingIntent.FLAG_UPDATE_CURRENT
-
-    fun reRegisterAllAlarms() {
-
-    }
 
 }

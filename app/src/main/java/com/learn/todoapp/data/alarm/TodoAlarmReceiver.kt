@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.learn.todoapp.R
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.BOOT_COMPLETED
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.KEY_TODO
+import com.learn.todoapp.data.alarm.TodoAlarmConstants.LOCKED_BOOT_COMPLETED
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.TIME_SET
 import com.learn.todoapp.data.alarm.TodoAlarmConstants.TODO_ALARM_ACTION
 import com.learn.todoapp.data.alarm.model.AlarmToDo
@@ -26,6 +27,7 @@ class TodoAlarmReceiver : BroadcastReceiver(), KoinComponent {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
             TODO_ALARM_ACTION -> {
+
                 val alarmToDo = intent.getParcelableExtra<AlarmToDo>(KEY_TODO)
                 alarmToDo?.let {
                     Log.i("Alarm", "Alarm Type : ${it.toDoType}")
@@ -39,13 +41,17 @@ class TodoAlarmReceiver : BroadcastReceiver(), KoinComponent {
                     notificationHelper.showNotification(it)
                 }
             }
-            BOOT_COMPLETED -> {
-                alarmHelper.reRegisterAllAlarms()
-            }
-            TIME_SET -> {
-                alarmHelper.reRegisterAllAlarms()
+            BOOT_COMPLETED, LOCKED_BOOT_COMPLETED, TIME_SET -> {
+                reRegisterAlarms()
             }
 
+        }
+    }
+
+    private fun reRegisterAlarms() {
+        CoroutineScope(Dispatchers.IO + handler).launch {
+            alarmHelper.reRegisterAllAlarms()
+            cancel()
         }
     }
 

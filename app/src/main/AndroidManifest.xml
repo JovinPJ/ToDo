@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".TodoApplication"
@@ -17,6 +18,7 @@
         android:theme="@style/Theme.ToDoApp">
         <receiver
             android:name=".data.alarm.TodoAlarmReceiver"
+            android:directBootAware="true"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -24,6 +26,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -40,8 +45,8 @@
         </activity>
         <activity
             android:name=".data.notification.FullScreenNotificationActivity"
-            android:showOnLockScreen="true"
-            android:parentActivityName=".presentation.MainActivity" />
+            android:parentActivityName=".presentation.MainActivity"
+            android:showOnLockScreen="true" />
     </application>
 
 </manifest>
