@@ -20,8 +20,8 @@ class AlarmHelper(private val context: Context, private val alarmManager: AlarmM
         var alarmTriggerTime = 0L
         val pendingIntent = getPendingIntent(alarmToDo)
         pendingIntent?.let {
+            val alarmTriggerDate = alarmToDo.getAlarmTriggerStartDate()
             val alarmTimeInterval = alarmToDo.getAlarmTimeInterval()
-            val alarmTriggerDate = alarmToDo.date.getAlarmTriggerStartDate()
             alarmTriggerTime = alarmTriggerDate + alarmTimeInterval
             registerAlarm(alarmTriggerTime, pendingIntent)
             Log.e(

@@ -13,6 +13,7 @@ abstract class BaseViewModel : ViewModel() {
     protected val handler = CoroutineExceptionHandler { _, exception ->
         val msg = "Caught $exception"
         Log.e("ExceptionHandler", msg)
+        hideProgress()
         if (exception is UnknownHostException)
             showToast(toastRes = R.string.check_internet)
         else showToast(toastMsg = msg)

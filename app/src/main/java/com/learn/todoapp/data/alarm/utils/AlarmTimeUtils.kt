@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import com.learn.todoapp.data.alarm.model.AlarmToDo
 import com.learn.todoapp.domain.models.ToDoType
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 const val MINUTE_MILLIS = 60 * 1_000L
@@ -28,20 +29,37 @@ fun ToDoType.getUpdateIntervalMillis(): Long {
     }
 }
 
-fun Long?.getAlarmTriggerStartDate(): Long {
+fun AlarmToDo?.getAlarmTriggerStartDate(): Long {
     val selectedCalendar = Calendar.getInstance()
-    this?.let { selectedCalendar.timeInMillis = it }
+    this?.date?.let { selectedCalendar.timeInMillis = it }
 
     // using 'rigtNowCalendar' to use current Time, instead of 'selectedCalendar' Time,
     // we are handling Time Calculations separately
     val rightNowCalendar = Calendar.getInstance()
-    rightNowCalendar.set(
-        selectedCalendar.get(Calendar.YEAR),
-        selectedCalendar.get(Calendar.MONTH),
-        selectedCalendar.get(Calendar.DATE)
-    )
     rightNowCalendar.set(Calendar.SECOND, 0) // eliminating Second and Milli Second
     rightNowCalendar.set(Calendar.MILLISECOND, 0)
+
+    // making the selected time equal to Current time for comparison
+    selectedCalendar.set(Calendar.HOUR_OF_DAY, rightNowCalendar.get(Calendar.HOUR_OF_DAY))
+    selectedCalendar.set(Calendar.MINUTE, rightNowCalendar.get(Calendar.MINUTE))
+    selectedCalendar.set(Calendar.SECOND, 0) // eliminating Second and Milli Second
+    selectedCalendar.set(Calendar.MILLISECOND, 0)
+
+    // setting the future date to Trigger from selected date, if the date is past not setting
+    if (rightNowCalendar.before(selectedCalendar))
+        rightNowCalendar.set(
+            selectedCalendar.get(Calendar.YEAR),
+            selectedCalendar.get(Calendar.MONTH),
+            selectedCalendar.get(Calendar.DATE)
+        )
+    else if(this?.toDoType == ToDoType.WEEKLY){
+        val msDiff: Long = rightNowCalendar.timeInMillis - selectedCalendar.timeInMillis
+        val daysDiff: Long = TimeUnit.MILLISECONDS.toDays(msDiff)
+        val elapsedDaysInWeek = daysDiff % 7 // getting the days need to complete a week
+        rightNowCalendar.set(Calendar.DATE,
+            rightNowCalendar.get(Calendar.DATE) + (7 - elapsedDaysInWeek.toInt()))
+    }
+
     return rightNowCalendar.timeInMillis
 }
 
