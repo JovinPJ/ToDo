@@ -10,13 +10,15 @@ import com.learn.todoapp.domain.usecases.DeleteTodoUsecase
 import com.learn.todoapp.domain.usecases.FetchTodoUsecase
 import com.learn.todoapp.domain.usecases.UserTokenUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val userTokenUsecase: UserTokenUsecase,
     private val fetchTodoUsecase: FetchTodoUsecase,
-    private val deleteTodoUsecase: DeleteTodoUsecase
+    private val deleteTodoUsecase: DeleteTodoUsecase,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel() {
 
     private val todosListLiveData = MutableLiveData<List<ToDo>>()
@@ -32,7 +34,7 @@ class HomeViewModel(
 
         try {
             showProgress()
-            viewModelScope.launch(Dispatchers.IO + handler) {
+            viewModelScope.launch(coroutineDispatcher + handler) {
                 val todos = fetchTodoUsecase.fetchAll()
                 todosListLiveData.postValue(todos)
                 hideProgress()
@@ -50,7 +52,7 @@ class HomeViewModel(
     fun deleteTodo(todo: ToDo) {
         try {
             showProgress()
-            viewModelScope.launch(Dispatchers.IO + handler) {
+            viewModelScope.launch(coroutineDispatcher + handler) {
                 deleteTodoUsecase.deleteTodo(todo)
                 val todos = fetchTodoUsecase.fetchAll()
                 todosListLiveData.postValue(todos)

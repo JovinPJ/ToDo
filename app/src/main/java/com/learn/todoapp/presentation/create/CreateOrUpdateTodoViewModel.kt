@@ -12,12 +12,14 @@ import com.learn.todoapp.domain.usecases.InsertTodoUsecase
 import com.learn.todoapp.presentation.base.BaseViewModel
 import com.learn.todoapp.presentation.utils.isTodoTitleValid
 import com.learn.todoapp.presentation.utils.models.ValidationResponse
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateOrUpdateTodoViewModel(
     private val insertTodoUsecase: InsertTodoUsecase,
-    private val fetchTodoUsecase: FetchTodoUsecase
+    private val fetchTodoUsecase: FetchTodoUsecase,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel() {
 
     private val todoInsertedLiveData = MutableLiveData<Long>()
@@ -33,7 +35,7 @@ class CreateOrUpdateTodoViewModel(
         if (!isTodoTitleValid(title)) return
         try {
             showProgress()
-            viewModelScope.launch(Dispatchers.IO + handler) {
+            viewModelScope.launch(coroutineDispatcher + handler) {
                 val alarmTriggerTime = insertTodoUsecase.insertOrUpdateTodo(
                     ToDo(todoId, title, desc, hour, minute, date, toDoType)
                 )
@@ -62,7 +64,7 @@ class CreateOrUpdateTodoViewModel(
     fun fetchTodo(id: Int) {
         try {
             showProgress()
-            viewModelScope.launch(Dispatchers.IO + handler) {
+            viewModelScope.launch(coroutineDispatcher + handler) {
                 fetchTodoUsecase.fetch(id)?.let {
                     todoLiveData.postValue(it)
                     todoId = it.id

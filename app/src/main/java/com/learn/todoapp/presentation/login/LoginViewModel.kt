@@ -1,6 +1,5 @@
 package com.learn.todoapp.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,10 +9,14 @@ import com.learn.todoapp.presentation.base.BaseViewModel
 import com.learn.todoapp.presentation.utils.isEmailValid
 import com.learn.todoapp.presentation.utils.isPasswordValid
 import com.learn.todoapp.presentation.utils.models.ValidationResponse
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
+class LoginViewModel(
+    private val loginUsecase: LoginUsecase,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : BaseViewModel() {
 
     private val isLoggedInLiveData = MutableLiveData<Boolean>()
 
@@ -23,7 +26,7 @@ class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
         try {
             if (!isDetailsValid(email, password)) return
             showProgress()
-            viewModelScope.launch(Dispatchers.IO + handler) {
+            viewModelScope.launch(coroutineDispatcher + handler) {
                 val loginResponse = loginUsecase.login(email, password)
                 isLoggedInLiveData.postValue(loginResponse.isSuccess)
                 hideProgress()
@@ -36,7 +39,6 @@ class LoginViewModel(private val loginUsecase: LoginUsecase) : BaseViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.e("LoginViewModel", "login api Caught $e")
             hideProgress()
             e.message?.let {
                 showToast(e.message)
