@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">ToDoApp</string>
+    <string name="submit">Submit</string>
+    <string name="email_address">Enter Email Address</string>
+    <string name="enter_password">Enter Password</string>
+
+    <string name="login_title">Login</string>
+    <string name="home_title">Your Todos</string>
+
+    <string name="create_todo">Create Todo</string>
+    <string name="title">Title</string>
+    <string name="hh_mm">HH:mm</string>
+    <string name="dd_mm_yyyy">dd/MM/yyyy</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+
+    <string name="update_todo">Update Todo</string>
+
+    <string name="check_internet">please check your internet connectivity</string>
+    <string name="login_failed">Failed to Login</string>
+    <string name="unknown_error">Something went wrong</string>
+    <string name="description">Description</string>
+    <string name="no_todos">No Todos</string>
+    <string name="ok">OK</string>
+    <string name="confirm">are you sure?</string>
+    <string name="delete">Delete</string>
+    <string name="delete_confirm">are you sure to delete?</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="empty_email">please enter your Email address</string>
+    <string name="invalid_email">Invalid Email address</string>
+
+    <string name="empty_password">password field is empty</string>
+    <string name="password_min_length">minimum 5 characters required</string>
+
+    <string name="empty_todo_title">Todo title must not be empty</string>
+    <string name="alarm_set_on">Alarm set : \n%s</string>
+
+    <string name="channel_name">Todo</string>
+    <string name="channel_description">All todo notification</string>
+    <string name="alarm_at">"Alarm at : %s"</string>
+</resources>
